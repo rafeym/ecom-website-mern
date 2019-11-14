@@ -1,5 +1,8 @@
-import products from '../../static/products.json'
-export default (req,res) => {
-    console.log(`the request is a ${req.method} request`)
-    res.status(200).json(products)
+import Product from '../../models/Product'
+
+export default async (req, res) => {
+  const { _id } = req.query
+  const product = await Product.findOne({ _id: _id })
+
+  res.status(200).json(product)
 }
