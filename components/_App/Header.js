@@ -9,7 +9,7 @@ Router.onRouteChangeError = () => NProgress.done()
 
 function Header() {
   const router = useRouter()
-  const user = false;
+  const user = true;
 
   // Helper function to create active links
   const isActive = (route) => {
@@ -17,16 +17,16 @@ function Header() {
   }
 
   return (
-    <Menu fluid id='menu' inverted>
+    <Menu stackable fluid id='menu'>
       <Container text>
         <Link href='/'>
           <Menu.Item Header active={isActive('/')}>
             <Image
               size='mini'
-              src='/static/logo.svg'
+              src='/static/favicon/sneakerLogo.png'
               style={{ marginRight: '1em' }}
             />
-            Biil's Merchandise
+            Fresh Kicks
           </Menu.Item>
         </Link>
 
