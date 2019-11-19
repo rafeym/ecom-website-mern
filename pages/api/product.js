@@ -1,7 +1,7 @@
 import Product from '../../models/Product'
-import { POINT_CONVERSION_COMPRESSED } from 'constants'
-import { privateEncrypt } from 'crypto'
-import { privateEncrypt } from 'crypto'
+import connectDb from '../../utils/connectDb'
+
+connectDb()
 
 export default async (req, res) => {
   switch (req.method){
@@ -38,7 +38,7 @@ const handlePostRequest = async (req,res) => {
    description,
    mediaUrl
   }).save()
-  res.status(200)  
+  res.status(201).json(product)  
 }
 
 const handleDeleteRequest = async (req,res) => {
