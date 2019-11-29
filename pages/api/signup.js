@@ -11,6 +11,15 @@ connectDb()
 export default async (req,res) => {
     const { name, email, password } = req.body
     try {
+
+        // 1) Validate the name/email/password values
+        if(!name.isLength(name,{ min: 3, max: 20 })){
+            res.status(422).send("Name must be 2-10 characters long")
+        } else if (!isLength(password, {min: 8})){
+            res.status(422).send("Password must be atleast 8 characters long")
+        } else if (!isEmail(email)){
+            res.status(422).send("Email must be valid")
+        }
         // 2) Check to see if user already exists in DB
         const user = await User.findOne({email})
         if(user){
