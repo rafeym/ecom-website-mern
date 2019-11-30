@@ -1,15 +1,12 @@
 import React from 'react'
-import catchErrors from '../utils/catchErrors'
 import Link from 'next/link'
-import axios from 'axios'
-import baseUrl from '../utils/baseUrl'
-import { handleLogin } from '../utils/auth'
 
-import {Button, Form, Icon, Message, Segment} from 'semantic-ui-react'
+import { Button, Form, Icon, Message, Segment } from 'semantic-ui-react'
+import catchErrors from '../utils/catchErrors'
 
 
 const INITIAL_USER = {
-  name : '',
+  name: '',
   email: '',
   password: ''
 }
@@ -25,22 +22,20 @@ function Signup() {
     isUser ? setDisabled(false) : setDisabled(true)
   }, [user])
 
-  const handleChange = (event) => {
-    const {name, value} = event.target
+
+  function handleChange(event){
+    const { name, value } = event.target
     setUser(prevState => ({...prevState, [name]: value}))
   }
 
-  const handleSubmit = async () => {
+  async function handleSubmit(event){
     event.preventDefault()
-    try{
+    try {
       setLoading(true)
       setError('')
+      console.log(user)
       // Make req to signup user
-      const url = `${baseUrl}/api/signup`
-      const payload = {...user}
-      const response = await axios.post(url, payload)
-      handleLogin(response.data)
-    } catch(error) {
+    } catch (error) {
       catchErrors(error, setError)
     } finally {
       setLoading(false)
@@ -49,13 +44,14 @@ function Signup() {
 
   return <>
     <Message
-    attached
-    icon="settings"
-    header="Get Started!"
-    content="Create a new account"
-    color="black"/>
+      attached
+      icon="settings"
+      header="Get Started!"
+      content="Create a new account"
+      color="black"
+    />
     <Form error={Boolean(error)} loading={loading} onSubmit={handleSubmit}>
-    <Message
+    <Message 
       error
       header="Oops!"
       content={error}
@@ -78,9 +74,9 @@ function Signup() {
           label="Email"
           placeholder="Email"
           name="email"
-          type="email"
           value={user.email}
           onChange={handleChange}
+          type="email"
         />
         <Form.Input
           fluid
@@ -89,26 +85,27 @@ function Signup() {
           label="Password"
           placeholder="Password"
           name="password"
-          type="password"
           value={user.password}
           onChange={handleChange}
+          type="password"
         />
-        <Button 
+        <Button
+          disabled={disabled || loading} 
           icon="signup"
           type="submit"
           color="black"
-          content="Signup"
-          disabled={disabled || loading}
+          content="Sign Up"
         />
       </Segment>
     </Form>
     <Message attached="bottom" warning>
+      <Icon name="help"/>
       Existing User?{" "}
       <Link href="/login">
         <a>Log in here</a>
-      </Link>{" "}
+      </Link>{" "}instead.
     </Message>
   </>
 }
 
-export default Signup;
+export default Signup

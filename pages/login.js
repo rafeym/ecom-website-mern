@@ -1,8 +1,9 @@
 import React from 'react'
+import Link from 'next/link'
+
+import { Button, Form, Icon, Message, Segment } from 'semantic-ui-react'
 import catchErrors from '../utils/catchErrors'
 
-import {Button, Form, Icon, Message, Segment} from 'semantic-ui-react'
-import Link from 'next/link'
 
 const INITIAL_USER = {
   email: '',
@@ -20,19 +21,20 @@ function Signup() {
     isUser ? setDisabled(false) : setDisabled(true)
   }, [user])
 
-  const handleChange = (event) => {
-    const {name, value} = event.target
+
+  function handleChange(event){
+    const { name, value } = event.target
     setUser(prevState => ({...prevState, [name]: value}))
   }
 
-  const handleSubmit = async () => {
+  async function handleSubmit(event){
     event.preventDefault()
-    try{
+    try {
       setLoading(true)
       setError('')
       console.log(user)
       // Make req to signup user
-    } catch(error) {
+    } catch (error) {
       catchErrors(error, setError)
     } finally {
       setLoading(false)
@@ -41,13 +43,14 @@ function Signup() {
 
   return <>
     <Message
-    attached
-    icon="privacy"
-    header="Welcome Back!"
-    content="Log in with email and password"
-    color="black"/>
+      attached
+      icon="privacy"
+      header="Welcome Back!"
+      content="Login with email and password"
+      color="black"
+    />
     <Form error={Boolean(error)} loading={loading} onSubmit={handleSubmit}>
-    <Message
+    <Message 
       error
       header="Oops!"
       content={error}
@@ -60,9 +63,9 @@ function Signup() {
           label="Email"
           placeholder="Email"
           name="email"
-          type="email"
           value={user.email}
           onChange={handleChange}
+          type="email"
         />
         <Form.Input
           fluid
@@ -71,26 +74,27 @@ function Signup() {
           label="Password"
           placeholder="Password"
           name="password"
-          type="password"
           value={user.password}
           onChange={handleChange}
+          type="password"
         />
-        <Button 
+        <Button
+          disabled={disabled || loading} 
           icon="sign in"
           type="submit"
           color="black"
           content="Login"
-          disabled={disabled || loading}
         />
       </Segment>
     </Form>
     <Message attached="bottom" warning>
-      New user?{" "}
+      <Icon name="help"/>
+      New User?{" "}
       <Link href="/signup">
         <a>Sign up here</a>
-      </Link>{" "}
+      </Link>{" "}instead.
     </Message>
   </>
 }
 
-export default Signup;
+export default Signup
