@@ -1,5 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import baseUrl from '../utils/baseUrl'
+import axios from 'axios'
+import { handleLogin } from '../utils/auth'
 
 import { Button, Form, Icon, Message, Segment } from 'semantic-ui-react'
 import catchErrors from '../utils/catchErrors'
@@ -32,8 +35,10 @@ function Signup() {
     try {
       setLoading(true)
       setError('')
-      console.log(user)
-      // Make req to signup user
+      const url = `${baseUrl}/api/login`
+      const payload = {...user}
+      const response = await axios.post(url,payload)
+      handleLogin(response)
     } catch (error) {
       catchErrors(error, setError)
     } finally {
