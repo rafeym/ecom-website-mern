@@ -1,25 +1,24 @@
-const catchErrors = (error, displayErr) => {
-  let errorMsg
+function catchErrors(error, displayError){
+  let errorMsg;
   if (error.response) {
-    // The request was made and server responded with
-    //status code that is not in the range of 2XX
+    // The request was made and the serveer responseded with status code that is not range of 2XX
     errorMsg = error.response.data
-    console.log('Error response', errorMsg)
+    console.error("Error response", errorMsg)
 
-    // For cloudinary image uploads
-    if (error.response.data.error) {
-      errorMsg = error.response.data.error.message
+    // For Cloudinary image upload
+    if(error.response.data.error){
+      errorMsg = error.response.data.error.message;
     }
   } else if (error.request) {
-    // request was made but no response back
+    // Request was made, but no response was recieved
     errorMsg = error.request
-    console.log('Error request', errorMsg)
-  } else {
-    //   Something else in request casuing error
+    console.error("Error request", errorMsg)
+  } else { 
+    // Something else in request triggering error
     errorMsg = error.message
-    console.log('Error message', errorMsg)
+    console.error("Error message", errorMsg)
   }
-  displayErr(errorMsg)
+  displayError(errorMsg)
 }
 
 export default catchErrors
