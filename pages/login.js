@@ -25,12 +25,12 @@ function Signup() {
   }, [user])
 
 
-  function handleChange(event){
+  const handleChange = (event) => {
     const { name, value } = event.target
     setUser(prevState => ({...prevState, [name]: value}))
   }
 
-  async function handleSubmit(event){
+  const handleSubmit = async(event) => {
     event.preventDefault()
     try {
       setLoading(true)
