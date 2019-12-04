@@ -7,9 +7,9 @@ Router.onRouteChangeStart = () => NProgress.start()
 Router.onRouteChangeComplete = () => NProgress.done()
 Router.onRouteChangeError = () => NProgress.done()
 
-function Header() {
+function Header({ user }) {
+  console.log(user)
   const router = useRouter()
-  const user = true
 
   // Helper function to create active links
   const isActive = route => {
