@@ -42,6 +42,7 @@ class MyApp extends App {
     // Return the object that returns the props
     return { pageProps: pageProps }
   }
+  // Passing pageProps as a prop to the Layout and Component making it available throughout all components
   render() {
     const { Component, pageProps } = this.props
     return (
