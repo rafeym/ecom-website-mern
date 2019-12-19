@@ -3,23 +3,22 @@ import ProductSummary from '../components/Product/ProductSummary'
 import ProductAttributes from '../components/Product/ProductAttributes'
 import baseUrl from '../utils/baseUrl'
 
-function Product({product}) {
+function Product({ product, user }) {
   return (
     <>
-      <ProductSummary {...product}/>
-      <ProductAttributes {...product}/>
+      <ProductSummary {...product} />
+      <ProductAttributes user={user} {...product} />
     </>
   )
 }
 
-Product.getInitialProps = async ({query: {_id} }) => {
+Product.getInitialProps = async ({ query: { _id } }) => {
   // Make a request to new endpoint to get a product from product list based on id
   const url = `${baseUrl}/api/product`
-  const payload = {params: {_id}}
+  const payload = { params: { _id } }
   const response = await axios.get(url, payload)
 
-  return {product : response.data}
+  return { product: response.data }
 }
 
-
-export default Product;
+export default Product
