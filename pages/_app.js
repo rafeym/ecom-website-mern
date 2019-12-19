@@ -34,6 +34,17 @@ class MyApp extends App {
         const url = `${baseUrl}/api/account`
         const response = await axios.get(url, payload)
         const user = response.data
+
+        // Check if role prop is root or admin
+        const isRoot = user.role === 'root'
+        const isAdmin = user.role === 'admin'
+        // If authenticated, but not admin or root role, redirect from 'create' page
+        const isNotPermitted =
+          !(isRoot || isAdmin) && ctx.pathname === '/create'
+        if (isNotPermitted) {
+          redirectUser(ctx, '/')
+        }
+
         pageProps.user = user
       } catch (error) {
         console.error('Error getting current user', error)
