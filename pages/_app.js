@@ -4,6 +4,7 @@ import { parseCookies, destroyCookie } from 'nookies'
 import { redirectUser } from '../utils/auth'
 import baseUrl from '../utils/baseUrl'
 import axios from 'axios'
+import { Router } from 'next/router'
 
 class MyApp extends App {
   static getInitialProps = async ({ Component, ctx }) => {
@@ -36,10 +37,10 @@ class MyApp extends App {
         pageProps.user = user
       } catch (error) {
         console.error('Error getting current user', error)
-        // // 1. Throw out invalid token
-        // destroyCookie(ctx, "token")
-        // // 2. Redirect to login page
-        // redirectUser(ctx, '/login')
+        // 1. Throw out invalid token
+        destroyCookie(ctx, 'token')
+        // 2. Redirect to login page
+        redirectUser(ctx, '/login')
       }
     }
 
