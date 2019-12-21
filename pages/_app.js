@@ -4,7 +4,7 @@ import { parseCookies, destroyCookie } from 'nookies'
 import { redirectUser } from '../utils/auth'
 import baseUrl from '../utils/baseUrl'
 import axios from 'axios'
-import { Router } from 'next/router'
+import Router from 'next/router'
 
 class MyApp extends App {
   static getInitialProps = async ({ Component, ctx }) => {
@@ -58,6 +58,19 @@ class MyApp extends App {
     // Return the object that returns the props
     return { pageProps: pageProps }
   }
+
+  componentDidMount() {
+    // Executes call back when local storage changes
+    window.addEventListener('storage', this.syncLogout)
+  }
+
+  syncLogout = event => {
+    if (event.key === 'logout') {
+      console.log('Logged out from storage')
+      Router.push('/login')
+    }
+  }
+
   // Passing pageProps as a prop to the Layout and Component making it available throughout all components
   render() {
     const { Component, pageProps } = this.props
