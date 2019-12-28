@@ -29,4 +29,4 @@ const ProductSchema = new mongoose.Schema({
 
 // If existing Product model exist use that otherwise create new Product schema
 export default mongoose.models.products ||
-  mongoose.model('Product', ProductSchema)
+  mongoose.model('products', ProductSchema)
