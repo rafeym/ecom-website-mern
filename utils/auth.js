@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 export function handleLogin(token) {
   cookie.set('token', token)
-  Router.push('/account')
+  Router.push('/index')
 }
 
 // Acceots context object and path to redirect to
