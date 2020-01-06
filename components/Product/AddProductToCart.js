@@ -29,7 +29,7 @@ function AddProductToCart({ user, productId }) {
       const payload = { quantity, productId }
       // Adding extra layer of security to avoid adding product to cart if user is not authenticated
       const token = cookie.get('token')
-      const headers = { headers: { Authorization: 'token' } }
+      const headers = { headers: { Authorization: token } }
       await axios.put(url, payload, headers)
       setSuccess(true)
     } catch (error) {
@@ -65,9 +65,9 @@ function AddProductToCart({ user, productId }) {
             }
           : {
               color: 'blue',
-              content: 'Sign up To Purchase',
+              content: 'Login To Purchase',
               icon: 'signup',
-              onclick: () => router.push('/signup')
+              onClick: () => router.push('/login')
             }
       }
     />
