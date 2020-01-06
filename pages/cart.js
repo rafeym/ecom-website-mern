@@ -7,12 +7,11 @@ import { parseCookies } from 'nookies'
 import axios from 'axios'
 import baseUrl from '../utils/baseUrl'
 
-function Cart({ products }) {
-  console.log(products)
+function Cart({ products, user }) {
   return (
     <Segment>
-      <CartItemList />
-      <CartSummary />
+      <CartItemList products={products} user={user} />
+      <CartSummary products={products} />
     </Segment>
   )
 }
