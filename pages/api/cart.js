@@ -15,6 +15,9 @@ export default async (req, res) => {
     case 'PUT':
       await handlePutRequest(req, res)
       break
+    case 'DELETE':
+      await handleDeleteRequest(req, res)
+      break
     default:
       res.status(405).send(`Method ${req.method} not allowed`)
   }
@@ -76,6 +79,30 @@ const handlePutRequest = async (req, res) => {
       )
     }
     res.status(200).send('Cart updated')
+  } catch (error) {
+    res.status(403).send('Please login again')
+  }
+}
+
+const handleDeleteRequest = async (req, res) => {
+  const { productId } = req.query
+  if (!req.headers.authorization) {
+    return res.status(401).send('No authorization token')
+  }
+  try {
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    )
+    const cart = await Cart.findOneAndUpdate(
+      { user: userId },
+      { $pull: { products: { product: productId } } },
+      { new: true }
+    ).populate({
+      path: 'products.product',
+      model: 'Product'
+    })
+    res.status(200).json(cart.products)
   } catch (error) {
     res.status(403).send('Please login again')
   }
