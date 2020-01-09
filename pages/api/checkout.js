@@ -60,7 +60,7 @@ export default async (req, res) => {
       products: cart.products
     }).save()
     // 8. Clear products in cart
-    await Cart.findOneAndUpdate({ _id: cart._id }, { $set: { product: [] } })
+    await Cart.findOneAndUpdate({ _id: cart._id }, { $set: { products: [] } })
     res.status(200).send('Checkout Successful!')
   } catch (error) {
     console.error(error)
