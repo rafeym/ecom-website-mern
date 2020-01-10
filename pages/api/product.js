@@ -1,18 +1,19 @@
 import Product from '../../models/Product'
 import connectDb from '../../utils/connectDb'
+import Cart from '../../models/Cart'
 
 connectDb()
 
 export default async (req, res) => {
-  switch (req.method){
-    case "GET":
-      await handleGetRequest(req,res)
+  switch (req.method) {
+    case 'GET':
+      await handleGetRequest(req, res)
       break
-    case "POST":
+    case 'POST':
       await handlePostRequest(req, res)
       break
-    case "DELETE":
-      await handleDeleteRequest(req,res)  
+    case 'DELETE':
+      await handleDeleteRequest(req, res)
       break
     default:
       // Indicates error on requst on client side
@@ -21,34 +22,44 @@ export default async (req, res) => {
   }
 }
 
-const handleGetRequest = async (req,res) => {
+const handleGetRequest = async (req, res) => {
   const { _id } = req.query
-  const product = await Product.findOne({_id})
+  const product = await Product.findOne({ _id })
   res.status(200).json(product)
 }
 
-const handlePostRequest = async (req,res) => {
-  const {name, price, description, mediaUrl} = req.body
+const handlePostRequest = async (req, res) => {
+  const { name, price, description, mediaUrl } = req.body
   try {
-    if(!name || !price || !description || !mediaUrl){
-      return res.status(422).send("Product missing one or more fields")
+    if (!name || !price || !description || !mediaUrl) {
+      return res.status(422).send('Product missing one or more fields')
     }
     const product = await new Product({
-     name,
-     price,
-     description,
-     mediaUrl
+      name,
+      price,
+      description,
+      mediaUrl
     }).save()
-    res.status(201).json(product)  
+    res.status(201).json(product)
   } catch (error) {
     console.error(error)
-    res.status(500).send("Server error in creating product")
+    res.status(500).send('Server error in creating product')
   }
- 
 }
 
-const handleDeleteRequest = async (req,res) => {
-  const {_id} = req.query
-  await Product.findOneAndDelete({_id})
-  res.status(204).json({})
+const handleDeleteRequest = async (req, res) => {
+  const { _id } = req.query
+  try {
+    // 1. Delete product by id
+    await Product.findOneAndDelete({ _id })
+    // 2. Remove product from all carts, ref as 'product
+    await Cart.updateMany(
+      { 'products.product': _id },
+      { $pull: { products: { product: { _id } } } }
+    )
+    res.status(204).json({})
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Error deleting product')
+  }
 }
