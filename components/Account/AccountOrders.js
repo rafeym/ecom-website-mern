@@ -35,7 +35,7 @@ function AccountOrders({ orders }) {
             </List.Header>
             <List>
               {order.products.map(p => (
-                <List.Item>
+                <List.Item key={p.product._id}>
                   <Image avatar src={p.product.mediaUrl} />
                   <List.Header>{p.product.name}</List.Header>
                   <List.Description>
