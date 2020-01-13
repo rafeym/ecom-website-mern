@@ -67,8 +67,7 @@ function CreateProduct() {
       const url = `${baseUrl}/api/product`
       const { name, description, price } = product
       const payload = { name, description, price, mediaUrl }
-      const response = await axios.post(url, payload)
-      console.log({ response })
+      await axios.post(url, payload)
 
       // Turn state values back to default values after submit
       setProduct(INITIAL_PRODUCT)
@@ -87,12 +86,13 @@ function CreateProduct() {
         <Icon name='add' color='orange' />
         Create New Product
       </Header>
-      <Form loading={loading} error={Boolean(error)} success={success} onSubmit={handleSubmit}>
-        <Message
-          error
-          header='Oops!'
-          content={error}
-        />
+      <Form
+        loading={loading}
+        error={Boolean(error)}
+        success={success}
+        onSubmit={handleSubmit}
+      >
+        <Message error header='Oops!' content={error} />
         <Message
           success
           icon='check'
